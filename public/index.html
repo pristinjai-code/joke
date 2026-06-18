@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School E-Voting System</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>🗳️ SCHOOL E-VOTING SYSTEM</h1>
+    <p>STUDENT TRUST (DEMOCRACY IN YOUNG CITIZENS)</p>
+  </header>
+
+  <main>
+    <!-- TAB NAVIGATION -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(event, 'student')">🗳️ Cast Vote</button>
+      <button class="tab-btn" onclick="switchTab(event, 'board')">📊 Live Board</button>
+      <button class="tab-btn" onclick="switchTab(event, 'admin')">🔐 Admin</button>
+    </div>
+
+    <!-- STUDENT TAB -->
+    <div id="student" class="tab-content active">
+      <div class="grid">
+        <section class="card">
+          <h2>Welcome to Safe Voting</h2>
+          
+          <div class="field">
+            <label for="studentId">Student ID</label>
+            <input id="studentId" type="text" placeholder="Enter Student ID">
+          </div>
+
+          <button class="btn primary" id="issueBtn" style="width:100%">Get Credential</button>
+          
+          <div id="eligibilityMsg"></div>
+
+          <div id="ballot" class="hidden">
+            <div class="credential-box">
+              <span class="label">✓ Your Credential</span>
+              <span class="value" id="cred">XXXXX</span>
+            </div>
+
+            <h3 style="margin:16px 0 14px 0;font-size:16px;font-weight:800">Select Your Candidates</h3>
+            
+            <div class="post-section">
+              <div class="post-title">👑 HEAD GIRL (S5)</div>
+              <div class="list">
+                <label class="item candidate-item">
+                  <input type="radio" name="HEAD_GIRL" value="Aber Prisca">
+                  <span class="candidate-info"><div>Aber Prisca</div><div class="candidate-class">S5</div></span>
+                </label>
+                <label class="item candidate-item">
+                  <input type="radio" name="HEAD_GIRL" value="Joanita Ameri">
+                  <span class="candidate-info"><div>Joanita Ameri</div><div class="candidate-class">S5</div></span>
+                </label>
+                <label class="item candidate-item">
+                  <input type="radio" name="HEAD_GIRL" value="Tracy Teddy">
+                  <span class="candidate-info"><div>Tracy Teddy</div><div class="candidate-class">S5</div></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="post-section">
+              <div class="post-title">🌟 ASSISTANT HEAD GIRL (S3)</div>
+              <div class="list">
+                <label class="item candidate-item">
+                  <input type="radio" name="ASS_HEAD_GIRL" value="Juan Scovia">
+                  <span class="candidate-info"><div>Juan Scovia</div><div class="candidate-class">S3</div></span>
+                </label>
+                <label class="item candidate-item">
+                  <input type="radio" name="ASS_HEAD_GIRL" value="Mazira Jane">
+                  <span class="candidate-info"><div>Mazira Jane</div><div class="candidate-class">S3</div></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="post-section">
+              <div class="post-title">🏆 UNSA PRESIDENT (S5)</div>
+              <div class="list">
+                <label class="item candidate-item">
+                  <input type="radio" name="UNSA_PRESIDENT" value="Pamela Grace">
+                  <span class="candidate-info"><div>Pamela Grace</div><div class="candidate-class">S5</div></span>
+                </label>
+                <label class="item candidate-item">
+                  <input type="radio" name="UNSA_PRESIDENT" value="Agnes Joyce">
+                  <span class="candidate-info"><div>Agnes Joyce</div><div class="candidate-class">S5</div></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="post-section">
+              <div class="post-title">🎤 UNSA SPEAKER (S3)</div>
+              <div class="list">
+                <label class="item candidate-item">
+                  <input type="radio" name="UNSA_SPEAKER" value="Morio Lydia">
+                  <span class="candidate-info"><div>Morio Lydia</div><div class="candidate-class">S3</div></span>
+                </label>
+                <label class="item candidate-item">
+                  <input type="radio" name="UNSA_SPEAKER" value="Drabaa Sphie">
+                  <span class="candidate-info"><div>Drabaa Sphie</div><div class="candidate-class">S3</div></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="post-section">
+              <div class="post-title">⚕️ HEALTH PREFECT (S5)</div>
+              <div class="list">
+                <label class="item candidate-item">
+                  <input type="radio" name="HEALTH_PREFECT" value="Muraa Brenda">
+                  <span class="candidate-info"><div>Muraa Brenda</div><div class="candidate-class">S5</div></span>
+                </label>
+                <label class="item candidate-item">
+                  <input type="radio" name="HEALTH_PREFECT" value="Bakoru Juliet">
+                  <span class="candidate-info"><div>Bakoru Juliet</div><div class="candidate-class">S5</div></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="post-section">
+              <div class="post-title">🏥 VICE HEALTH PREFECT (S3)</div>
+              <div class="list">
+                <label class="item candidate-item">
+                  <input type="radio" name="VICE_HEALTH_PREFECT" value="Atimaku Grace">
+                  <span class="candidate-info"><div>Atimaku Grace</div><div class="candidate-class">S3</div></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="post-section">
+              <div class="post-title">📖 EDUCATION & DISCIPLINE (S5)</div>
+              <div class="list">
+                <label class="item candidate-item">
+                  <input type="radio" name="EDUCATION_DISCIPLINE" value="Andrea Atonia">
+                  <span class="candidate-info"><div>Andrea Atonia</div><div class="candidate-class">S5</div></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="post-section">
+              <div class="post-title">📚 VICE EDUCATION & DISCIPLINE (S3)</div>
+              <div class="list">
+                <label class="item candidate-item">
+                  <input type="radio" name="VICE_EDUCATION_DISCIPLINE" value="Martha Mukisa">
+                  <span class="candidate-info"><div>Martha Mukisa</div><div class="candidate-class">S3</div></span>
+                </label>
+              </div>
+            </div>
+
+            <button class="btn primary" id="castBtn" style="margin-top:18px;width:100%">Cast Vote</button>
+            
+            <div id="castMsg"></div>
+
+            <div id="receipt" class="hidden">
+              <div class="tracker-box">
+                <span class="label">✓ Vote Tracker</span>
+                <span class="value" id="tracker"></span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Election Status</h2>
+          <div id="statusBox"></div>
+        </section>
+      </div>
+    </div>
+
+    <!-- PUBLIC BOARD TAB -->
+    <div id="board" class="tab-content">
+      <div id="confetti-container" class="confetti-container"></div>
+      <div class="grid">
+        <section class="card">
+          <h2>🎉 Live Statistics</h2>
+          <div class="live-stats-container">
+            <div class="total-votes-display vote-counter" style="font-size:40px;font-weight:800;color:var(--primary);margin-bottom:10px" id="totalVotesDisplay">0 Votes</div>
+            <div style="font-size:14px;color:var(--success);margin-bottom:16px;font-weight:700">✨ Real-time updates as votes are cast! ✨</div>
+            <div id="statsContent"></div>
+          </div>
+          <button class="btn primary refresh-btn" id="refreshBoardBtn">🔄 Refresh Board</button>
+        </section>
+
+        <section class="card">
+          <h2>Vote Verification</h2>
+          <div class="field">
+            <label>Search Tracker ID</label>
+            <input id="trackerSearch" type="text" placeholder="Paste tracker ID">
+            <button class="btn primary" id="searchBtn" style="margin-top:10px;width:100%">Verify</button>
+          </div>
+          <div id="searchResult"></div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ADMIN TAB -->
+    <div id="admin" class="tab-content">
+      <section class="card">
+        <h2>Admin Control</h2>
+        
+        <div class="admin-lock" id="adminLock">
+          <div class="lock-icon">🔐</div>
+          <p style="font-weight:800">Admin Authentication</p>
+          <div class="field">
+            <label>Password</label>
+            <input id="adminPass" type="password" placeholder="Enter password">
+          </div>
+          <button class="btn warning" id="unlockBtn" style="width:100%">Unlock</button>
+          <div id="authMsg"></div>
+        </div>
+
+        <div id="adminPanel" class="hidden">
+          <div class="alert success">✓ Admin Panel Unlocked</div>
+          <div class="row">
+            <button class="btn warning" id="openBtn" style="flex:1">Open Election</button>
+            <button class="btn warning" id="closeBtn" style="flex:1">Close Election</button>
+          </div>
+          <p id="adminMsg" class="muted" style="margin-top:12px"></p>
+
+          <div id="resultsSection" class="hidden" style="margin-top:20px">
+            <h3>Live Results</h3>
+            <div id="results"></div>
+          </div>
+
+          <div class="row" style="margin-top:20px">
+            <button class="btn" id="auditBtn" style="flex:1">Audit Log</button>
+            <button class="btn danger" id="resetBtn" style="flex:1">Reset</button>
+          </div>
+
+          <div id="auditLog" class="hidden" style="margin-top:20px">
+            <h3>Audit Trail</h3>
+            <div id="auditContent"></div>
+          </div>
+
+          <button class="btn danger" id="lockBtn" style="margin-top:20px;width:100%">Lock</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  <script src="client.js"></script>
+</body>
+</html>
