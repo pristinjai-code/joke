@@ -1,244 +1,452 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>School E-Voting System</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Voting System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .create-poll {
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        input, button {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .options-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .options-input input {
+            flex: 1;
+        }
+        
+        .btn-create {
+            background: #667eea;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        
+        .btn-create:hover {
+            background: #764ba2;
+            transform: scale(1.02);
+        }
+        
+        .poll {
+            margin-bottom: 20px;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .poll-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            text-align: center;
+        }
+        
+        .poll-link {
+            background: #f0f0f0;
+            padding: 12px;
+            border-radius: 6px;
+            word-break: break-all;
+            margin-bottom: 15px;
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .poll-link-text {
+            flex: 1;
+        }
+        
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: #764ba2;
+        }
+        
+        .live-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #4caf50;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(1.2);
+            }
+        }
+        
+        .option {
+            margin-bottom: 15px;
+            animation: updateOption 0.5s ease-out;
+        }
+        
+        @keyframes updateOption {
+            0% {
+                background: #fff3cd;
+            }
+            100% {
+                background: transparent;
+            }
+        }
+        
+        .option-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .option-bar {
+            background: #e0e0e0;
+            border-radius: 6px;
+            height: 35px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .option-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 12px;
+            color: white;
+            font-weight: bold;
+            transition: width 0.6s ease-out;
+        }
+        
+        .btn-vote {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: bold;
+            transition: 0.3s;
+            width: 100%;
+        }
+        
+        .btn-vote:hover {
+            background: #45a049;
+            transform: scale(1.02);
+        }
+        
+        .btn-vote:active {
+            transform: scale(0.98);
+        }
+        
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-weight: 500;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef5350;
+        }
+        
+        .success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #66bb6a;
+        }
+        
+        .live-status {
+            text-align: center;
+            color: #4caf50;
+            font-size: 12px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>🗳️ SCHOOL E-VOTING SYSTEM</h1>
-    <p>STUDENT TRUST (DEMOCRACY IN YOUNG CITIZENS)</p>
-  </header>
-
-  <main>
-    <!-- TAB NAVIGATION -->
-    <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab(event, 'student')">🗳️ Cast Vote</button>
-      <button class="tab-btn" onclick="switchTab(event, 'board')">📊 Live Board</button>
-      <button class="tab-btn" onclick="switchTab(event, 'admin')">🔐 Admin</button>
-    </div>
-
-    <!-- STUDENT TAB -->
-    <div id="student" class="tab-content active">
-      <div class="grid">
-        <section class="card">
-          <h2>Welcome to Safe Voting</h2>
-          
-          <div class="field">
-            <label for="studentId">Student ID</label>
-            <input id="studentId" type="text" placeholder="Enter Student ID">
-          </div>
-
-          <button class="btn primary" id="issueBtn" style="width:100%">Get Credential</button>
-          
-          <div id="eligibilityMsg"></div>
-
-          <div id="ballot" class="hidden">
-            <div class="credential-box">
-              <span class="label">✓ Your Credential</span>
-              <span class="value" id="cred">XXXXX</span>
+    <div class="container">
+        <div class="create-poll" id="createSection">
+            <h1>📊 Create a Poll</h1>
+            <div class="form-group">
+                <input type="text" id="pollTitle" placeholder="What's your question?">
             </div>
-
-            <h3 style="margin:16px 0 14px 0;font-size:16px;font-weight:800">Select Your Candidates</h3>
-            
-            <div class="post-section">
-              <div class="post-title">👑 HEAD GIRL (S5)</div>
-              <div class="list">
-                <label class="item candidate-item">
-                  <input type="radio" name="HEAD_GIRL" value="Aber Prisca">
-                  <span class="candidate-info"><div>Aber Prisca</div><div class="candidate-class">S5</div></span>
-                </label>
-                <label class="item candidate-item">
-                  <input type="radio" name="HEAD_GIRL" value="Joanita Ameri">
-                  <span class="candidate-info"><div>Joanita Ameri</div><div class="candidate-class">S5</div></span>
-                </label>
-                <label class="item candidate-item">
-                  <input type="radio" name="HEAD_GIRL" value="Tracy Teddy">
-                  <span class="candidate-info"><div>Tracy Teddy</div><div class="candidate-class">S5</div></span>
-                </label>
-              </div>
-            </div>
-
-            <div class="post-section">
-              <div class="post-title">🌟 ASSISTANT HEAD GIRL (S3)</div>
-              <div class="list">
-                <label class="item candidate-item">
-                  <input type="radio" name="ASS_HEAD_GIRL" value="Juan Scovia">
-                  <span class="candidate-info"><div>Juan Scovia</div><div class="candidate-class">S3</div></span>
-                </label>
-                <label class="item candidate-item">
-                  <input type="radio" name="ASS_HEAD_GIRL" value="Mazira Jane">
-                  <span class="candidate-info"><div>Mazira Jane</div><div class="candidate-class">S3</div></span>
-                </label>
-              </div>
-            </div>
-
-            <div class="post-section">
-              <div class="post-title">🏆 UNSA PRESIDENT (S5)</div>
-              <div class="list">
-                <label class="item candidate-item">
-                  <input type="radio" name="UNSA_PRESIDENT" value="Pamela Grace">
-                  <span class="candidate-info"><div>Pamela Grace</div><div class="candidate-class">S5</div></span>
-                </label>
-                <label class="item candidate-item">
-                  <input type="radio" name="UNSA_PRESIDENT" value="Agnes Joyce">
-                  <span class="candidate-info"><div>Agnes Joyce</div><div class="candidate-class">S5</div></span>
-                </label>
-              </div>
-            </div>
-
-            <div class="post-section">
-              <div class="post-title">🎤 UNSA SPEAKER (S3)</div>
-              <div class="list">
-                <label class="item candidate-item">
-                  <input type="radio" name="UNSA_SPEAKER" value="Morio Lydia">
-                  <span class="candidate-info"><div>Morio Lydia</div><div class="candidate-class">S3</div></span>
-                </label>
-                <label class="item candidate-item">
-                  <input type="radio" name="UNSA_SPEAKER" value="Drabaa Sphie">
-                  <span class="candidate-info"><div>Drabaa Sphie</div><div class="candidate-class">S3</div></span>
-                </label>
-              </div>
-            </div>
-
-            <div class="post-section">
-              <div class="post-title">⚕️ HEALTH PREFECT (S5)</div>
-              <div class="list">
-                <label class="item candidate-item">
-                  <input type="radio" name="HEALTH_PREFECT" value="Muraa Brenda">
-                  <span class="candidate-info"><div>Muraa Brenda</div><div class="candidate-class">S5</div></span>
-                </label>
-                <label class="item candidate-item">
-                  <input type="radio" name="HEALTH_PREFECT" value="Bakoru Juliet">
-                  <span class="candidate-info"><div>Bakoru Juliet</div><div class="candidate-class">S5</div></span>
-                </label>
-              </div>
-            </div>
-
-            <div class="post-section">
-              <div class="post-title">🏥 VICE HEALTH PREFECT (S3)</div>
-              <div class="list">
-                <label class="item candidate-item">
-                  <input type="radio" name="VICE_HEALTH_PREFECT" value="Atimaku Grace">
-                  <span class="candidate-info"><div>Atimaku Grace</div><div class="candidate-class">S3</div></span>
-                </label>
-              </div>
-            </div>
-
-            <div class="post-section">
-              <div class="post-title">📖 EDUCATION & DISCIPLINE (S5)</div>
-              <div class="list">
-                <label class="item candidate-item">
-                  <input type="radio" name="EDUCATION_DISCIPLINE" value="Andrea Atonia">
-                  <span class="candidate-info"><div>Andrea Atonia</div><div class="candidate-class">S5</div></span>
-                </label>
-              </div>
-            </div>
-
-            <div class="post-section">
-              <div class="post-title">📚 VICE EDUCATION & DISCIPLINE (S3)</div>
-              <div class="list">
-                <label class="item candidate-item">
-                  <input type="radio" name="VICE_EDUCATION_DISCIPLINE" value="Martha Mukisa">
-                  <span class="candidate-info"><div>Martha Mukisa</div><div class="candidate-class">S3</div></span>
-                </label>
-              </div>
-            </div>
-
-            <button class="btn primary" id="castBtn" style="margin-top:18px;width:100%">Cast Vote</button>
-            
-            <div id="castMsg"></div>
-
-            <div id="receipt" class="hidden">
-              <div class="tracker-box">
-                <span class="label">✓ Vote Tracker</span>
-                <span class="value" id="tracker"></span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="card">
-          <h2>Election Status</h2>
-          <div id="statusBox"></div>
-        </section>
-      </div>
-    </div>
-
-    <!-- PUBLIC BOARD TAB -->
-    <div id="board" class="tab-content">
-      <div id="confetti-container" class="confetti-container"></div>
-      <div class="grid">
-        <section class="card">
-          <h2>🎉 Live Statistics</h2>
-          <div class="live-stats-container">
-            <div class="total-votes-display vote-counter" style="font-size:40px;font-weight:800;color:var(--primary);margin-bottom:10px" id="totalVotesDisplay">0 Votes</div>
-            <div style="font-size:14px;color:var(--success);margin-bottom:16px;font-weight:700">✨ Real-time updates as votes are cast! ✨</div>
-            <div id="statsContent"></div>
-          </div>
-          <button class="btn primary refresh-btn" id="refreshBoardBtn">🔄 Refresh Board</button>
-        </section>
-
-        <section class="card">
-          <h2>Vote Verification</h2>
-          <div class="field">
-            <label>Search Tracker ID</label>
-            <input id="trackerSearch" type="text" placeholder="Paste tracker ID">
-            <button class="btn primary" id="searchBtn" style="margin-top:10px;width:100%">Verify</button>
-          </div>
-          <div id="searchResult"></div>
-        </section>
-      </div>
-    </div>
-
-    <!-- ADMIN TAB -->
-    <div id="admin" class="tab-content">
-      <section class="card">
-        <h2>Admin Control</h2>
+            <div id="optionsContainer"></div>
+            <button class="btn-create" onclick="addOption()">+ Add Option</button>
+            <button class="btn-create" onclick="createPoll()" style="background: #4caf50;">Create Poll</button>
+        </div>
         
-        <div class="admin-lock" id="adminLock">
-          <div class="lock-icon">🔐</div>
-          <p style="font-weight:800">Admin Authentication</p>
-          <div class="field">
-            <label>Password</label>
-            <input id="adminPass" type="password" placeholder="Enter password">
-          </div>
-          <button class="btn warning" id="unlockBtn" style="width:100%">Unlock</button>
-          <div id="authMsg"></div>
-        </div>
-
-        <div id="adminPanel" class="hidden">
-          <div class="alert success">✓ Admin Panel Unlocked</div>
-          <div class="row">
-            <button class="btn warning" id="openBtn" style="flex:1">Open Election</button>
-            <button class="btn warning" id="closeBtn" style="flex:1">Close Election</button>
-          </div>
-          <p id="adminMsg" class="muted" style="margin-top:12px"></p>
-
-          <div id="resultsSection" class="hidden" style="margin-top:20px">
-            <h3>Live Results</h3>
-            <div id="results"></div>
-          </div>
-
-          <div class="row" style="margin-top:20px">
-            <button class="btn" id="auditBtn" style="flex:1">Audit Log</button>
-            <button class="btn danger" id="resetBtn" style="flex:1">Reset</button>
-          </div>
-
-          <div id="auditLog" class="hidden" style="margin-top:20px">
-            <h3>Audit Trail</h3>
-            <div id="auditContent"></div>
-          </div>
-
-          <button class="btn danger" id="lockBtn" style="margin-top:20px;width:100%">Lock</button>
-        </div>
-      </section>
+        <div id="pollDisplay"></div>
     </div>
-  </main>
 
-  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-  <script src="client.js"></script>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+        const API_URL = window.location.origin;
+        const socket = io(API_URL, {
+            reconnection: true,
+            reconnectionDelay: 1000,
+            reconnectionDelayMax: 5000,
+            reconnectionAttempts: 5
+        });
+        
+        let currentPollId = null;
+        let currentOptions = ['Option 1'];
+        let isVoting = false;
+
+        function addOption() {
+            currentOptions.push(`Option ${currentOptions.length + 1}`);
+            renderOptions();
+        }
+
+        function renderOptions() {
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = currentOptions.map((opt, i) => `
+                <div class="options-input">
+                    <input type="text" value="${opt}" onchange="currentOptions[${i}] = this.value">
+                    <button onclick="currentOptions.splice(${i}, 1); renderOptions();" style="max-width: 50px; background: #ff6b6b; color: white; border: none; cursor: pointer;">✕</button>
+                </div>
+            `).join('');
+        }
+
+        async function createPoll() {
+            const title = document.getElementById('pollTitle').value.trim();
+            if (!title || currentOptions.length < 2) {
+                showMessage('error', 'Need a title and at least 2 options!');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/api/poll`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, options: currentOptions })
+                });
+
+                const poll = await response.json();
+                currentPollId = poll.pollId;
+                showMessage('success', '✅ Poll created! Share the link below:');
+                renderPoll(poll);
+                document.getElementById('createSection').style.display = 'none';
+                socket.emit('join_poll', currentPollId);
+            } catch (err) {
+                showMessage('error', '❌ Error creating poll: ' + err.message);
+            }
+        }
+
+        async function castVote(optionIndex) {
+            if (isVoting) return;
+            isVoting = true;
+
+            try {
+                const response = await fetch(`${API_URL}/api/vote/${currentPollId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ optionIndex })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    showMessage('error', '⚠️ ' + (error.error || 'Voting failed'));
+                    isVoting = false;
+                    return;
+                }
+
+                showMessage('success', '✅ Vote recorded! Results updating...');
+                // The vote_update event will automatically refresh the board
+            } catch (err) {
+                showMessage('error', '❌ Error casting vote: ' + err.message);
+                isVoting = false;
+            }
+        }
+
+        function renderPoll(poll) {
+            const totalVotes = poll.options.reduce((sum, opt) => sum + opt.votes, 0);
+            const pollUrl = `${window.location.origin}?poll=${poll.pollId}`;
+
+            let html = `
+                <div class="poll">
+                    <h2 class="poll-title">${poll.title}</h2>
+                    <div class="poll-link">
+                        <div class="poll-link-text">📎 ${pollUrl}</div>
+                        <button class="copy-btn" onclick="copyToClipboard('${pollUrl}')">Copy</button>
+                    </div>
+            `;
+
+            poll.options.forEach((opt, i) => {
+                const percentage = totalVotes > 0 ? (opt.votes / totalVotes * 100).toFixed(1) : 0;
+                html += `
+                    <div class="option">
+                        <div class="option-text">
+                            <span>${opt.text}</span>
+                            <span>${opt.votes} vote${opt.votes !== 1 ? 's' : ''} (${percentage}%)</span>
+                        </div>
+                        <div class="option-bar">
+                            <div class="option-fill" style="width: ${percentage}%">${percentage > 10 ? percentage + '%' : ''}</div>
+                        </div>
+                        <button class="btn-vote" onclick="castVote(${i})">🗳️ Vote</button>
+                    </div>
+                `;
+            });
+
+            html += `
+                <div class="live-status">
+                    <span class="live-indicator"></span>Live Updates Enabled
+                </div>
+                </div>
+            `;
+            
+            document.getElementById('pollDisplay').innerHTML = html;
+            isVoting = false;
+        }
+
+        function showMessage(type, text) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${type}`;
+            msgDiv.textContent = text;
+            document.querySelector('.container').prepend(msgDiv);
+            setTimeout(() => msgDiv.remove(), 4000);
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            showMessage('success', '📋 Link copied to clipboard!');
+        }
+
+        async function loadPoll(pollId) {
+            try {
+                const response = await fetch(`${API_URL}/api/poll/${pollId}`);
+                const poll = await response.json();
+                
+                if (poll.error) {
+                    showMessage('error', '❌ Poll not found!');
+                    return;
+                }
+
+                currentPollId = pollId;
+                renderPoll(poll);
+                document.getElementById('createSection').style.display = 'none';
+                socket.emit('join_poll', pollId);
+            } catch (err) {
+                showMessage('error', '❌ Error loading poll: ' + err.message);
+            }
+        }
+
+        // 🔴 REAL-TIME UPDATE: Listen for vote updates and automatically refresh
+        socket.on('vote_update', (data) => {
+            if (data.pollId === currentPollId) {
+                console.log('📊 Vote received! Updating board...');
+                renderPoll(data.poll);
+            }
+        });
+
+        // Socket connection events
+        socket.on('connect', () => {
+            console.log('✅ Connected to server');
+        });
+
+        socket.on('disconnect', () => {
+            console.log('⚠️ Disconnected from server');
+        });
+
+        // Load poll from URL parameter or start fresh
+        const params = new URLSearchParams(window.location.search);
+        const pollId = params.get('poll');
+        if (pollId) {
+            loadPoll(pollId);
+        } else {
+            renderOptions();
+        }
+    </script>
 </body>
 </html>
